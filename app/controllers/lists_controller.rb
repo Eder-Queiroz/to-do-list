@@ -1,5 +1,5 @@
 class ListsController < ApplicationController
-  before_action :set_list, only: %i[ show edit update destroy ]
+  before_action :set_list, only: %i[ show edit update ]
 
   def index
     @lists = List.all
@@ -34,12 +34,10 @@ class ListsController < ApplicationController
 
   private
   def list_params
-    params.require(:list).permit(:name, :category_id)
+    params.require(:list).permit(:name)
   end
 
   def set_list
     @list = Lists.find(params[:id])
-    # rescue ActiveRecord::RecordNotFound
-    # redirect_to lists_path, alert: "Lista não encontrada."
   end
 end
