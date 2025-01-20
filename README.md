@@ -4,8 +4,6 @@ Este projeto é um simples e eficiente aplicativo de TO DO List desenvolvido com
 
 ---
 
-W
-
 ## Instalação e Configuração
 
 ### Passo 1: Clonar o repositório
