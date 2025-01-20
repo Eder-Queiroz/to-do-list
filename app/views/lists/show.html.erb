@@ -1,2 +1,64 @@
-<h1>Lists#show</h1>
-<p>Find me in app/views/lists/show.html.erb</p>
+<div class="max-w-4xl mx-auto p-6 bg-white shadow rounded-lg w-full flex flex-col gap-4">
+  <div class="flex flex-row justify-between items-center">
+
+  <%= link_to lists_path, 
+  class: "text-sm font-medium" do %>
+
+  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+  </svg>
+
+<% end %>
+
+    <div class="flex flex-row gap-2 justify-cente items-center">
+      <h1 class="text-3xl font-bold text-gray-800"><%= @list.name %></h1>
+    </div>
+
+    <div class="flex space-x-4">
+      <%= link_to "Editar", edit_list_path(@list), 
+        class: "bg-gray-100 hover:bg-gray-200 text-gray-800 font-medium py-2 px-4 rounded-lg transition-all" %>
+      <%= button_to "Excluir", @list, 
+        method: :delete, 
+        data: { turbo_confirm: "Tem certeza?" }, 
+        class: "bg-red-500 hover:bg-red-600 text-white font-medium py-2 px-4 rounded-lg shadow transition-all" %>
+    </div>
+  </div>
+
+  <div data-controller="items" data-list-id="<%= @list.id %>" class = "flex flex-row gap-4">
+  <% ["pending", "progress", "done"].each do |status| %>
+    <div
+      class="bg-gray-100 p-4 rounded-lg space-y-4 h-96 w-full overflow-y-auto"
+      data-items-target="list"
+      data-status="<%= status %>"
+      data-action="dragover->items#dragover drop->items#drop"
+    >
+      <div class= "flex justify-between items-center">
+      <h2 class="text-lg font-bold text-gray-800">
+        <%= status == "pending" ? "A Fazer" : status == "progress" ? "Fazendo" : "Feito" %>
+      </h2>
+
+      <% if status == "pending" %>
+          <%= link_to "+", new_list_item_path(@list), 
+            class: "text-white bg-green-500 hover:bg-green-600 font-medium text-lg w-8 h-8 flex items-center justify-center rounded-full shadow transition-all" %>
+        <% end %>
+      </div>
+
+      <div class="grid grid-col gap-4">
+        <% @list.items.where(status: status).each do |item| %>
+          <div
+            class="p-4 bg-white shadow rounded-lg flex items-center justify-center text-gray-800 text-center cursor-grab"
+            draggable="true"
+            data-id="<%= item.id %>"
+            data-action="dragstart->items#dragstart"
+          >
+          <%= link_to item.name, edit_list_item_path(@list, item) %>
+          </div>
+        
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+  
+</div>

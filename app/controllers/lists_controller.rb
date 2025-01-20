@@ -1,5 +1,5 @@
 class ListsController < ApplicationController
-  before_action :set_list, only: %i[ show edit update ]
+  before_action :set_list, only: %i[ show edit update destroy ]
 
   def index
     @lists = List.all
@@ -23,7 +23,7 @@ class ListsController < ApplicationController
 
   def update
     if @list.update(list_params)
-      redirect_to lists_path, notice: "Lista atualizada com sucesso!"
+      redirect_to @list, notice: "Lista atualizada com sucesso!"
     else
       render :edit
     end
@@ -32,12 +32,17 @@ class ListsController < ApplicationController
   def show
   end
 
+  def destroy
+    @list.destroy
+    redirect_to lists_path, notice: "Lista deletada com sucesso!"
+  end
+
   private
   def list_params
     params.require(:list).permit(:name)
   end
 
   def set_list
-    @list = Lists.find(params[:id])
+    @list = List.find(params[:id])
   end
 end

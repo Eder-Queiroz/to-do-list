@@ -1,7 +1,7 @@
 <main class="w-screen flex flex-col p-4 bg-white shadow">
     <div class="flex justify-between w-full">
     <h1 class="text-2xl font-semibold text-text">Listas</h1>
-    <button class="bg-cyan-600 hover:bg-cyan-700 text-white w-24 h-12 pointer rounded-md">Adicionar</button>
+     <%= link_to "Adicionar", new_list_path, class: "bg-cyan-600 hover:bg-cyan-700 text-white pointer rounded-md px-4 py-2" %>
     </div>
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
 <% if @lists.any? %>
