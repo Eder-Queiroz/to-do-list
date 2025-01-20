@@ -23,7 +23,7 @@ class ListsController < ApplicationController
 
   def update
     if @list.update(list_params)
-      redirect_to lists_path, notice: "Lista atualizada com sucesso!"
+      redirect_to @list, notice: "Lista atualizada com sucesso!"
     else
       render :edit
     end
@@ -32,14 +32,17 @@ class ListsController < ApplicationController
   def show
   end
 
+  def destroy
+    @list.destroy
+    redirect_to lists_path, notice: "Lista deletada com sucesso!"
+  end
+
   private
   def list_params
-    params.require(:list).permit(:name, :category_id)
+    params.require(:list).permit(:name)
   end
 
   def set_list
-    @list = Lists.find(params[:id])
-    # rescue ActiveRecord::RecordNotFound
-    # redirect_to lists_path, alert: "Lista não encontrada."
+    @list = List.find(params[:id])
   end
 end

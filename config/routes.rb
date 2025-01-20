@@ -12,6 +12,8 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   root "lists#index"
   resources :lists do
-    resources :items, except: [ :index, :show ]
+    resources :items, except: [ :index, :show ] do
+      patch :update_status, on: :member
+    end
   end
 end
